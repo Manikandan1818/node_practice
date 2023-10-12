@@ -1,3 +1,0 @@
-File creating using writefile
-
- Update the file using append command!

@@ -26,9 +26,18 @@ const fileOps = async () => {
       path.join(__dirname, "files", "renameFile.txt")
     );
     console.log("File rename");
+
+    await fsPromises.unlink(path.join(__dirname, "files", "renameFile.txt"));
+    console.log("file deleted");
   } catch (err) {
     console.error(err);
   }
 };
 
 fileOps();
+
+// exit an uncaught error
+process.on("uncaughtException", (err) => {
+  console.error(`There was an uncaught error: ${err}`);
+  process.exit(1);
+});
