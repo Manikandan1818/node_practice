@@ -20,9 +20,15 @@
 // console.log(mul(2, 3));
 // console.log(div(2, 3));
 
-import { readFile } from "node:fs";
+const fs = require("fs");
+const path = require("path");
 
-readFile("./files/test.txt", "utf-8", (err, data) => {
+fs.readFile(path.join(__dirname, "files", "test.txt"), "utf-8", (err, data) => {
   if (err) throw err;
   console.log(data);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error(`There was an uncaught error: ${err}`);
+  process.exit(1);
 });
