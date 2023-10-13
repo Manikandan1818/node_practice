@@ -1,43 +1,24 @@
-console.log("Hello Node");
-console.log(global);
+const fs = require("fs");
+const http = require("http");
+const PORT = 1818;
 
-const os = require("os");
-console.log(os.type());
-console.log(os.version());
-
-console.log(__dirname);
-console.log(__filename);
-console.log("-------------");
-
-const path = require("path");
-console.log(path.dirname(__filename));
-
-console.log(path.parse(__filename));
-
-const { add, sub, mul, div } = require("./math");
-console.log(add(2, 3));
-console.log(sub(2, 3));
-console.log(mul(2, 3));
-console.log(div(2, 3));
-
-fs.readFile(path.join(__dirname, "files", "test.txt"), "utf-8", (err, data) => {
-  if (err) throw err;
-  console.log(data);
+const server = http.createServer((req, res) => {
+  res.writeHead(400, { "content-Type": "text/html" });
+  fs.readFile("index.html", (error, data) => {
+    if (error) {
+      res.writeHead(404);
+      res.write("Page not Found!");
+    } else {
+      res.write(data);
+    }
+    res.end();
+  });
 });
 
-fs.writeFile(
-  path.join(__dirname, "files", "newFile.txt"),
-  "Hello Node JS",
-  (err) => {
-    if (err) throw err;
-    console.log("Write Compleet");
-    fs.appendFile(
-      path.join(__dirname, "files", "newFile.txt"),
-      "\n\n Thank you",
-      (err) => {
-        if (err) throw err;
-        console.log("Append complete");
-      }
-    );
+server.listen(PORT, (error) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Server is running " + PORT);
   }
-);
+});
